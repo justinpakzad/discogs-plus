@@ -11,11 +11,9 @@ conn = psycopg2.connect(
     port="5432"
 )
 
-
 cur = conn.cursor()
 
 csv.field_size_limit(sys.maxsize)
-
 
 csv_dir = '/Users/justinpak/code/justinpakzad/discogs_advanced_searching/csv-dir'
 # Loop through csv files
