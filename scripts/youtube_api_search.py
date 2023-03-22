@@ -24,12 +24,13 @@ def search_video(artist_name,trackname):
     return video_id
 
 
-youtube_video_ids = []
+
 
 def get_video_ids():
-    for artist,track in artist_track_list:
-        youtube_video_ids.append(search_video(artist,track))
-    return youtube_video_ids
-
-
-
+    batch_size = 10
+    video_ids = []
+    for i in range(0,len(artist_track_list),batch_size):
+        batch = artist_track_list[i:i+batch_size]
+        for artist,track in batch:
+            video_ids.append(search_video(artist,track))
+    return video_ids

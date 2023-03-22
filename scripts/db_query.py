@@ -56,3 +56,4 @@ def get_artist_track_list(
     return artist_track_list
 
 x  = get_artist_track_list()
+print(x)
