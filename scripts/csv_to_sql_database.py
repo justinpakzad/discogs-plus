@@ -7,7 +7,7 @@ conn = psycopg2.connect(
     host="localhost",
     dbname="Discogs_Data",
     user="postgres",
-    password="nhlnhl2",
+    password=os.getenv('PASSWORD'),
     port="5432"
 )
 

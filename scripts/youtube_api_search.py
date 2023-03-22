@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 from googleapiclient.discovery import build
 import os
 from db_query import get_artist_track_list
+import re
 load_dotenv()
 
 api_key = os.getenv('YOTUBE_API_KEY')

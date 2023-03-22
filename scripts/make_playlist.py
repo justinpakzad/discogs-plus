@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from  google.auth.transport.requests import Request
+import re
 import os
 from youtube_api_search import get_video_ids
 load_dotenv()
