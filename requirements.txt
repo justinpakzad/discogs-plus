@@ -5,3 +5,5 @@ numpy
 seaborn
 psycopg2-binary
 python-dotenv
+
+google-api-python-client
