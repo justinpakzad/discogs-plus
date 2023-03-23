@@ -4,7 +4,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from  google.auth.transport.requests import Request
 import re
 import os
-from youtube_api_search import get_video_ids
+from youtube_api_search import get_ids_regex
 load_dotenv()
 
 flow = InstalledAppFlow.from_client_secrets_file('scripts/client_secret_946485639839-1beknq37id68h379c16gejsamj68ban8.apps.googleusercontent.com.json',
@@ -49,8 +49,8 @@ def add_songs_to_playlist(playlist_id, video_ids):
                 }
             }
         ).execute()
-playlist_id = make_playlist('Testing101','')
+playlist_id = make_playlist('Belgium 88-05','Electro and Tech')
 
-video_ids = get_video_ids()
+video_ids = get_ids_regex()
 
 add_songs_to_playlist(playlist_id,video_ids)
