@@ -16,19 +16,15 @@ cur = conn.cursor()
 csv.field_size_limit(sys.maxsize)
 
 csv_dir = '/Users/justinpak/code/justinpakzad/discogs_advanced_searching/csv-dir'
-# Loop through csv files
 for file in os.listdir(csv_dir):
-    # Check for correct files
+
     if file.endswith('.csv.bz2'):
-        # Assign the table name
         table_name = file.replace('.csv.bz2','')
         print(f"Loading {table_name}")
-        # open the files
         with bz2.open(os.path.join(csv_dir,file),'rt') as f:
             reader = csv.reader(f)
             header = next(reader)
             print(header)
-            # Create tables
             cur.execute(f"DROP TABLE IF EXISTS {table_name};")
             cur.execute(f"CREATE TABLE {table_name} ({', '.join([f'{col} TEXT' for col in header])});")
             # Try and check to see if theres any errors (;
@@ -38,4 +34,4 @@ for file in os.listdir(csv_dir):
                 except Exception as e:
                     print(f"Error occurred on row {i+1}: {e}")
             conn.commit()
-        print(f'{table_name} loaded successfully!')
+        print(f'{table_name} loaded correctly!!!!')
