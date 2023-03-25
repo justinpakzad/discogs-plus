@@ -9,7 +9,3 @@ user_token = os.getenv("USER_TOKEN")
 
 client = discogs_client.Client(user_agent='justinpakzad/0.1',user_token=user_token)
 
-user = client.user('letitberarities')
-
-for release in user.collection_folders[0].releases:
-    print(release)
