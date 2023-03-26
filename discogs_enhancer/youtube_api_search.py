@@ -5,12 +5,6 @@ from db_query import get_artist_track_list
 import re
 load_dotenv()
 
-# api_key = os.getenv('YOTUBE_API_KEY')
-# service_name = os.getenv('YOUTUBE_API_SERVICE_NAME')
-# version = os.getenv('YOUTUBE_API_VERSION')
-# youtube = build(service_name,version,developerKey=api_key)
-
-
 artist_track_list = get_artist_track_list()
 
 def get_ids_regex():
@@ -21,10 +15,6 @@ def get_ids_regex():
         match = re.search(pattern,link)
         vid_ids.append(match.group())
     return vid_ids
-
-
-
-
 
 
 # def search_video(artist_name,trackname):
@@ -45,3 +35,8 @@ def get_ids_regex():
 #         for artist,track in batch:
 #             video_ids.append(search_video(artist,track))
 #     return video_ids
+
+# api_key = os.getenv('YOTUBE_API_KEY')
+# service_name = os.getenv('YOUTUBE_API_SERVICE_NAME')
+# version = os.getenv('YOUTUBE_API_VERSION')
+# youtube = build(service_name,version,developerKey=api_key)
