@@ -10,11 +10,11 @@ load_dotenv()
 
 def connect_database():
     conn = psycopg2.connect(
-        host="localhost",
-        dbname="Discogs_Data",
-        user="postgres",
+        host=os.getenv('HOST'),
+        dbname=os.getenv('DATABASE_NAME'),
+        user=os.getenv('USER_DB'),
         password=os.getenv('PASSWORD'),
-        port="5432"
+        port=os.getenv('PORT')
     )
     return conn
 
@@ -23,9 +23,9 @@ def get_artist_track_list(
     style=["%Electro%","%Tech House%"],
     country="US",
     format="Vinyl",
-    start_year=1988,
-    end_year=2005,
-    limit=100):
+    start_year=1989,
+    end_year=1996,
+    limit=50):
 
     conn = connect_database()
     cur = conn.cursor()
@@ -49,7 +49,6 @@ def get_artist_track_list(
             AND rf.name = '{format}'
             AND r.release_year BETWEEN {start_year} AND {end_year}
         LIMIT {limit}
-
     """)
     results = cur.fetchall()
     cur.close()
