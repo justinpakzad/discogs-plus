@@ -5,4 +5,5 @@ __pycache__
 .python-version
 .DS_Store
 .history
-/Users/justinpak/code/justinpakzad/Discogs_Enhancer_Project/discogs_advanced_searching/model/playbook.ipynb
+model/playbook.ipynb
+
