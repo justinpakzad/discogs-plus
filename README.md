@@ -1,6 +1,18 @@
-## Discogs Advanced Search Engine
+# Discogs Enhancer
 
-Some ideas for this project:
-  - Working on being able to implement some more advanced search features?
-  - Generate youtube playlists from custom searches
-  - Improved recommendation algorithm
+Discogs Enhancer is a work-in-progress project that aims to improve the user experience of Discogs by offering advanced search, filtering, and recommendation features. It includes a YouTube playlist generator based on search parameters and a recommendation system using collaborative filtering.
+
+## Features
+
+- Advanced search and filtering options for Discogs data
+- Generate YouTube playlists based on search parameters (genre, year, style, etc.)
+- Recommendation system using collaborative filtering
+
+## Future Enhancements
+
+- Personalized recommendations using user's collection and wantlist data
+- Additional search and filtering options
+
+## Contributing
+
+This project is still under development, and any contributions are welcome. Feel free to open issues, submit pull requests, or suggest new features and improvements to enhance the Discogs experience.
