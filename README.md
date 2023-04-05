@@ -15,4 +15,4 @@ Discogs Enhancer is a work-in-progress project that aims to improve the user exp
 
 ## Contributing
 
-This project is still under development, and any contributions are welcome. Feel free to open issues, submit pull requests, or suggest new features and improvements to enhance the Discogs experience.
+This project is still under development, and any ideas are welcome. Feel free to contact me.
