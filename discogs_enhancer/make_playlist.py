@@ -39,7 +39,7 @@ def make_playlist(title, description):
 def check_playlist_items(playlist_id,video_ids):
     existing_ids = set()
     page_token = None
-    While True:
+    while True:
         playlist_items = youtube.playlistItems().list(
             playlistId=playlist_id,
             part="contentDetails",
@@ -53,7 +53,8 @@ def check_playlist_items(playlist_id,video_ids):
 
         if not page_token:
             break
-     return [video_id for video_id in video_ids if video_id not in existing_ids]
+    return [video_id for video_id in video_ids if video_id not in existing_ids]
+
 
 def add_songs_to_playlist(playlist_id, video_ids):
     video_ids_to_add = check_playlist_items(playlist_id, video_ids)
@@ -80,8 +81,8 @@ def add_songs_to_playlist(playlist_id, video_ids):
                 print(f"Error adding video {video_id} to playlist: {e}")
 
 
-playlist_id = make_playlist('US 88-05','Electro and Tech')
-
+# playlist_id = make_playlist('US/Europe 89-96','Electro and Techno')
+playlist_id = "PLWaMey9uegD4WecU0dLjbzLNB4jzQhGeh"
 video_ids = get_ids_regex()
 
 add_songs_to_playlist(playlist_id,video_ids)

@@ -20,12 +20,12 @@ def connect_database():
 
 def get_artist_track_list(
     genre="Electronic",
-    style=["%Electro%","%Tech House%"],
-    country="US",
+    style=["%Electro%","%Techno%"],
+    country=["US","Germany"],
     format="Vinyl",
-    start_year=1989,
-    end_year=1996,
-    limit=50):
+    start_year=1988,
+    end_year=1997,
+    limit=120):
 
     conn = connect_database()
     cur = conn.cursor()
@@ -33,7 +33,8 @@ def get_artist_track_list(
         SELECT DISTINCT
             ra.artist_name,
             r.title,
-            rv.uri
+            rv.uri,
+            random() as rand
         FROM
             release r
             JOIN release_style AS rs ON r.id = rs.release_id
@@ -45,13 +46,14 @@ def get_artist_track_list(
             r.master_id IS NULL
             AND rg.genre = '{genre}'
             AND rs.style LIKE ANY (ARRAY{style})
-            AND r.country = '{country}'
+            AND r.country LIKE ANY  (ARRAY{country})
             AND rf.name = '{format}'
             AND r.release_year BETWEEN {start_year} AND {end_year}
+        ORDER BY rand
         LIMIT {limit}
     """)
     results = cur.fetchall()
     cur.close()
     conn.close()
-    artist_track_url_list = [(artist,track,uri) for artist,track,uri in results]
+    artist_track_url_list = [(artist,track,uri,rand) for artist,track,uri,rand in results]
     return artist_track_url_list
