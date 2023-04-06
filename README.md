@@ -1,6 +1,6 @@
-# Discogs Enhancer
+# DiscogsPlus
 
-Discogs Enhancer is a work-in-progress project that aims to improve the user experience of Discogs by offering advanced search, filtering, and recommendation features. It includes a YouTube playlist generator based on search parameters and a recommendation system using collaborative filtering.
+DiscogsPlus is a work-in-progress project that aims to improve the user experience of Discogs by offering advanced search, filtering, and recommendation features. It includes a YouTube playlist generator based on search parameters and a recommendation system using collaborative filtering.
 
 ## Features
 
