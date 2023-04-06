@@ -21,7 +21,7 @@ def connect_database():
 def get_artist_track_list(
     genre="Electronic",
     style=["%Electro%","%Techno%"],
-    country=["US","Germany"],
+    country=["US","USA"],
     format="Vinyl",
     start_year=1988,
     end_year=1997,
