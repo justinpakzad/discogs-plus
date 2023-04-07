@@ -6,7 +6,6 @@ DiscogsPlus is a work-in-progress project that aims to improve the user experien
 
 - Advanced search and filtering options for Discogs data
 - Generate YouTube playlists based on search parameters (genre, year, style, etc.)
-- Recommendation system using collaborative filtering
 
 ## Future Enhancements
 
