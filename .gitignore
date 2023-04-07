@@ -6,4 +6,5 @@ __pycache__
 .DS_Store
 .history
 model/playbook.ipynb
-
+frontend/static
+frontend/templates
