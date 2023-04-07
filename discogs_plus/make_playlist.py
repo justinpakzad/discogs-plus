@@ -9,7 +9,7 @@ import os
 from youtube_api_search import get_ids_regex
 load_dotenv()
 
-flow = InstalledAppFlow.from_client_secrets_file("discogs_enhancer/client_secret_946485639839-1beknq37id68h379c16gejsamj68ban8.apps.googleusercontent.com.json",
+flow = InstalledAppFlow.from_client_secrets_file("/Users/justinpak/code/justinpakzad/Discogs_Enhancer_Project/discogs_advanced_searching/discogs_plus/client_secret_946485639839-1beknq37id68h379c16gejsamj68ban8.apps.googleusercontent.com.json",
                                                 scopes=["https://www.googleapis.com/auth/youtube","https://www.googleapis.com/auth/youtube.readonly","https://www.googleapis.com/auth/youtube.upload",
                                                         "https://www.googleapis.com/auth/youtubepartner"],redirect_uri="http://localhost:8080/")
 
@@ -81,8 +81,8 @@ def add_songs_to_playlist(playlist_id, video_ids):
                 print(f"Error adding video {video_id} to playlist: {e}")
 
 
-# playlist_id = make_playlist('US/Europe 89-96','Electro and Techno')
-playlist_id = "PLWaMey9uegD4WecU0dLjbzLNB4jzQhGeh"
+playlist_id = make_playlist('USA 1988-1999','Hip Hop')
+
 video_ids = get_ids_regex()
 
 add_songs_to_playlist(playlist_id,video_ids)

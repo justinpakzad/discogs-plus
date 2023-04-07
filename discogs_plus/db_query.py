@@ -19,19 +19,18 @@ def connect_database():
     return conn
 
 def get_artist_track_list(
-    genre="Electronic",
-    style=["%Electro%","%Tech House%"],
-    country=["USA","UK"],
+    genre="Hip Hop",
+    style=["%Boom Bap%","%Gangsta%"],
+    country=["USA","US"],
     format="Vinyl",
     start_year=1988,
-    end_year=1996,
-    limit=60):
+    end_year=1999,
+    limit=110):
 
     conn = connect_database()
     cur = conn.cursor()
     cur.execute(f"""
         SELECT DISTINCT
-            r.id,
             ra.artist_name,
             r.title,
             rv.uri,
@@ -50,24 +49,24 @@ def get_artist_track_list(
             AND r.country LIKE ANY  (ARRAY{country})
             AND rf.name = '{format}'
             AND r.release_year BETWEEN {start_year} AND {end_year}
-            AND ra.artist_name IN (
-            SELECT ra2.artist_name
-            FROM release_artist ra2
-            GROUP BY ra2.artist_name
-            HAVING COUNT(ra2.release_id) = 1
-        )
         ORDER BY rand
         LIMIT {limit}
     """)
     results = cur.fetchall()
     cur.close()
     conn.close()
-    artist_track_url_list = [(id,artist,track,uri,rand) for id,artist,track,uri,rand in results]
+    artist_track_url_list = [(artist,track,uri,rand) for artist,track,uri,rand in results]
     return artist_track_url_list
 
+# """ AND ra.artist_name IN (
+#             SELECT ra2.artist_name
+#             FROM release_artist ra2
+#             GROUP BY ra2.artist_name
+#             HAVING COUNT(ra2.release_id) = 1
+#         )"""
 
-tracks = get_artist_track_list()
+# tracks = get_artist_track_list()
 
-t = [(t[1],t[2]) for t in tracks]
+# t = [(t[1],t[2]) for t in tracks]
 
-print(t)
+# print(t)

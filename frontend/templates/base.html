@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Google Fonts: Open Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: 'Open Sans', sans-serif;
+            color: #2c3e50;
+        }
+
+        .navbar {
+            background-color: #f8f9fa;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: #2c3e50;
+        }
+
+        .nav-link {
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+
+        .content-wrapper {
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        input[type="text"], input[type="search"], select {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 0.5rem;
+            background-color: #ffffff;
+            color: #2c3e50;
+        }
+
+        label {
+            color: #2c3e50;
+        }
+
+        .navbar-brand:hover {
+            color: #2c3e50;
+        }
+    </style>
+
+    <title>DiscogsPlus</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('home') }}">DiscogsPlus</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
