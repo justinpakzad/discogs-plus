@@ -5,7 +5,5 @@ __pycache__
 .DS_Store
 .history
 model/playbook.ipynb
-static
-templates
 style_genres.py
 app.yaml
