@@ -7,3 +7,5 @@ __pycache__
 model/playbook.ipynb
 style_genres.py
 app.yaml
+static
+templates
