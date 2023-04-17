@@ -35,6 +35,7 @@ def search():
         "year_from": request.args.get('year_from'),
         "year_to": request.args.get('year_to'),
         "one_release": request.args.get('one_release') == 'on',
+        "limit_results": request.args.get('generate_playlist') == 'on',
         "no_master": request.args.get('no_master') == 'on',
         "gen_playlist": request.args.get('generate_playlist') == 'on',
         "playlist_name": request.args.get('playlist_name'),
