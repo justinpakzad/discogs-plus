@@ -3,9 +3,13 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from flask import Flask, render_template, request, redirect, url_for
 import logging
-from database import conn_pool
+import psycopg2  # Add this line
+from dotenv import load_dotenv  # Add this line
+
+# from database import conn_pool
 # from search import search_tracks, validate_input
 from playlist import create_playlist
+
 
 app = Flask(__name__)
 
@@ -22,6 +26,24 @@ def home():
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+
+@app.route("/test_db")  # Add this route
+def test_db():
+    try:
+        connection = psycopg2.connect(
+            host=os.environ.get('HOST'),
+            dbname=os.environ.get('DATABASE_NAME'),
+            user=os.environ.get('USER_DB'),
+            password=os.environ.get('PASSWORD'),
+            port=os.environ.get('PORT')
+        )
+        connection.close()
+        return "Connected to the database"
+    except Exception as e:
+        return f"Unable to connect to the database: {e}"
+
+
 
 
 @app.route("/search", methods=["GET", "POST"])
