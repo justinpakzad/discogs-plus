@@ -3,8 +3,8 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from flask import Flask, render_template, request, redirect, url_for
 import logging
-from database import conn_pool
-from search import search_tracks, validate_input
+# from database import conn_pool
+# from search import search_tracks, validate_input
 from playlist import create_playlist
 
 app = Flask(__name__)
@@ -48,8 +48,8 @@ def search():
     if any(x is None or x.strip() == '' for x in [search_params["genre"], search_params["style"], search_params["countries"], search_params["search_format"], search_params["year_from"], search_params["year_to"]]):
         return redirect(url_for('home'))
 
-    if not validate_input(search_params["genre"], search_params["style"], search_params["countries"], search_params["search_format"]):
-        return redirect(url_for('home'))
+    # if not validate_input(search_params["genre"], search_params["style"], search_params["countries"], search_params["search_format"]):
+    #     return redirect(url_for('home'))
 
     connection = conn_pool.getconn()
 
