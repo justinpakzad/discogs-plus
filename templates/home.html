@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="form-style">
+        <form method="POST" action="{{ url_for('search') }}">
+          <div class="search-form-container">
+            <div class="form-group">
+              <label for="genre">Genre</label>
+              <input type="text" id="genre" name="genre" class="form-control" placeholder="Enter genre">
+            </div>
+            <div class="form-group">
+              <label for="format">Format</label>
+              <input type="text" id="format" name="format" class="form-control" placeholder="Enter format">
+            </div>
+            <div class="form-group">
+              <label for="style">Styles</label>
+              <input type="text" id="style" name="style" class="form-control" placeholder="Enter styles">
+            </div>
+            <div class="form-group">
+              <label for="year_from">Year From</label>
+              <input type="number" id="year_from" name="year_from" class="form-control" placeholder="From">
+            </div>
+            <div class="form-group">
+              <label for="year_to">Year To</label>
+              <input type="number" id="year_to" name="year_to" class="form-control" placeholder="To">
+            </div>
+            <div class="form-group">
+              <label for="countries">Countries</label>
+              <input type="text" id="countries" name="countries" class="form-control" placeholder="Enter countries separated by commas">
+            </div>
+            <div class="form-group">
+              <label for="playlist_name">Enter Playlist Name</label>
+              <input type="text" id="playlist_name" name="playlist_name" class="form-control" placeholder="Enter playlist name">
+            </div>
+            <div class="form-group">
+              <label for="playlist_description">Enter Playlist Description</label>
+              <input type="text" id="playlist_description" name="playlist_description" class="form-control" placeholder="Enter playlist description">
+            </div>
+            <div class="form-group">
+              <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" id="one_release" name="one_release">
+                <label class="form-check-label" for="one-release">
+                  Filter by artist with one release
+                </label>
+              </div>
+              <div class="form-check mt-2">
+                <input class="form-check-input" type="checkbox" id="no_master" name="no_master">
+                <label class="form-check-label" for="no-master">
+                  Filter by no master release
+                </label>
+              <div class="form-group">
+                <div class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" id="generate_playlist" name="generate_playlist">
+                    <label class="form-check-label" for="generate_playlist">
+                        Generate YouTube playlist
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary mt-3">Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
