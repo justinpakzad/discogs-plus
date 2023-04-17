@@ -51,28 +51,28 @@ def search():
     if not validate_input(search_params["genre"], search_params["style"], search_params["countries"], search_params["search_format"]):
         return redirect(url_for('home'))
 
-    # connection = conn_pool.getconn()
+    connection = conn_pool.getconn()
 
-    # if connection:
-    #     try:
-    #         gen_playlist = search_params.pop("gen_playlist")  # Remove 'gen_playlist' from search_params
-    #         playlist_name = search_params.pop("playlist_name")  # Remove 'playlist_name' from search_params
-    #         playlist_description = search_params.pop("playlist_description")  # Remove 'playlist_description' from search_params
+    if connection:
+        try:
+            gen_playlist = search_params.pop("gen_playlist")  # Remove 'gen_playlist' from search_params
+            playlist_name = search_params.pop("playlist_name")  # Remove 'playlist_name' from search_params
+            playlist_description = search_params.pop("playlist_description")  # Remove 'playlist_description' from search_params
 
-    #         tracks = search_tracks(connection, **search_params)
-    #         if gen_playlist:
-    #             create_playlist(tracks, playlist_name, playlist_description)
-    #             return render_template('home.html')
-    #         else:
-    #             return render_template("results.html", tracks=tracks, **search_params)
-    #     except Exception as e:
-    #         app.logger.error(f"An error occurred while searching tracks: {e}")
-    #         return f"An error occurred while searching tracks: {e}", 500
-    #     finally:
-    #         conn_pool.putconn(connection)
-    # else:
-    #     app.logger.error("No connection available")
-    #     return "No connection available", 500
+            tracks = search_tracks(connection, **search_params)
+            if gen_playlist:
+                create_playlist(tracks, playlist_name, playlist_description)
+                return render_template('home.html')
+            else:
+                return render_template("results.html", tracks=tracks, **search_params)
+        except Exception as e:
+            app.logger.error(f"An error occurred while searching tracks: {e}")
+            return f"An error occurred while searching tracks: {e}", 500
+        finally:
+            conn_pool.putconn(connection)
+    else:
+        app.logger.error("No connection available")
+        return "No connection available", 500
 
 if __name__ == '__main__':
     app.run(debug=True)
