@@ -17,7 +17,7 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 app.logger.setLevel(logging.DEBUG)
 
-load_dotenv() 
+load_dotenv()
 
 @app.route("/")
 @app.route("/home")
@@ -30,8 +30,10 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/test_db")  # Add this route
+
+@app.route("/test_db")
 def test_db():
+    connection = None
     try:
         connection = psycopg2.connect(
             host=os.environ.get('HOST'),
@@ -40,11 +42,15 @@ def test_db():
             password=os.environ.get('PASSWORD'),
             port=os.environ.get('PORT')
         )
-        connection.close()
-        return "Connected to the database"
+        if connection:
+            return "Connection to the database is successful!"
+        else:
+            return "No connection available."
     except Exception as e:
-        return f"Unable to connect to the database: {e}"
-
+        return f"An error occurred while connecting to the database: {e}"
+    finally:
+        if connection:
+            connection.close()
 
 
 
