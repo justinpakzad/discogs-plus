@@ -1,3 +1,4 @@
+import time
 from style_genres import genres, styles, country, formats
 
 
@@ -5,7 +6,8 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
     cursor = conn.cursor()
     style = ['%' + s.strip() + '%' for s in style.split(',')] if style else ['%']
     countries = [c.strip() for c in countries.split(',')] if countries else ['%']
-    formatz = [f.strip() for f in formatz.split(',')]  if formatz else ['%']
+    formatz = [f.strip() for f in search_format.split(',')]  if search_format else ['%']
+
     limit_clause = "LIMIT 120" if limit_results else ""
 
     one_release_condition = f"AND filtered_drd.artist_release_count = 1" if one_release else ""
