@@ -1,15 +1,16 @@
 import psycopg2
-from psycopg2 import pool
+from psycopg2.pool import ThreadedConnectionPool
+
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-conn_pool = psycopg2.pool.ThreadedConnectionPool(
+conn_pool = ThreadedConnectionPool(
     1, 20,
-    host=os.environ.get('HOST'),
-    dbname=os.environ.get('DATABASE_NAME'),
-    user=os.environ.get('USER_DB'),
-    password=os.environ.get('PASSWORD'),
-    port=os.environ.get('PORT')
+    os.environ.get('HOST'),
+    os.environ.get('DATABASE_NAME'),
+    os.environ.get('USER_DB'),
+    os.environ.get('PASSWORD'),
+    os.environ.get('PORT')
 )
