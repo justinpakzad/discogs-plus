@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.DEBUG)
 app.logger.setLevel(logging.DEBUG)
 @app.route("/")
 def hello():
-    return "Hello, World!"
+    return render_template("home.html")
 
 
 # @app.route("/")
