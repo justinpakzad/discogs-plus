@@ -13,9 +13,11 @@ from playlist import create_playlist
 
 app = Flask(__name__)
 
+
 logging.basicConfig(level=logging.DEBUG)
 app.logger.setLevel(logging.DEBUG)
 
+load_dotenv() 
 
 @app.route("/")
 @app.route("/home")
