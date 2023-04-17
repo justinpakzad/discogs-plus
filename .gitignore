@@ -1,10 +1,11 @@
-csv-dir
 .env
-client_secret_946485639839-1beknq37id68h379c16gejsamj68ban8.apps.googleusercontent.com.json
+client_secrets.json
 __pycache__
 .python-version
 .DS_Store
 .history
 model/playbook.ipynb
-frontend/static
-frontend/templates
+static
+templates
+style_genres.py
+app.yaml

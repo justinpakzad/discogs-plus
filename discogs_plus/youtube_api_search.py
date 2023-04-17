@@ -1,19 +1,20 @@
 from dotenv import load_dotenv
-from googleapiclient.discovery import build
 import os
-from db_query import get_artist_track_list
+# from db_query import get_artist_track_list
 import re
 load_dotenv()
 
-artist_track_list = get_artist_track_list()
+# artist_track_list = get_artist_track_list()
 
-def get_ids_regex():
-    urls = [x[2] for x in artist_track_list]
+def get_ids_regex(urls):
     vid_ids = []
     pattern = "([^\=]+$)"
     for link in urls:
-        match = re.search(pattern,link)
-        vid_ids.append(match.group())
+        match = re.search(pattern, link)
+        if match:
+            vid_ids.append(match.group())
+        else:
+            print(f"No match found for URL: {link}")
     return vid_ids
 
 

@@ -6,18 +6,25 @@ import googleapiclient.errors
 import json
 import re
 import os
+import sys
 from youtube_api_search import get_ids_regex
 load_dotenv()
 
-flow = InstalledAppFlow.from_client_secrets_file("/Users/justinpak/code/justinpakzad/Discogs_Enhancer_Project/discogs_advanced_searching/discogs_plus/client_secret_946485639839-1beknq37id68h379c16gejsamj68ban8.apps.googleusercontent.com.json",
-                                                scopes=["https://www.googleapis.com/auth/youtube","https://www.googleapis.com/auth/youtube.readonly","https://www.googleapis.com/auth/youtube.upload",
-                                                        "https://www.googleapis.com/auth/youtubepartner"],redirect_uri="http://localhost:8080/")
 
-flow.run_local_server(port=8080)
+youtube = None
 
-credentials = flow.credentials
-
-youtube = build("youtube","v3",credentials=credentials)
+def authenticate_youtube():
+    global youtube
+    client_secrets_file = os.environ.get('YOUTUBE_CLIENT_SECRETS_FILE')
+    flow = InstalledAppFlow.from_client_secrets_file(client_secrets_file,
+                                                      scopes=["https://www.googleapis.com/auth/youtube",
+                                                              "https://www.googleapis.com/auth/youtube.readonly",
+                                                              "https://www.googleapis.com/auth/youtube.upload",
+                                                              "https://www.googleapis.com/auth/youtubepartner"],
+                                                      redirect_uri="http://localhost:8080/")
+    flow.run_local_server(port=8080)
+    credentials = flow.credentials
+    youtube = build("youtube", "v3", credentials=credentials)
 
 
 def make_playlist(title, description):
@@ -57,8 +64,7 @@ def check_playlist_items(playlist_id,video_ids):
 
 
 def add_songs_to_playlist(playlist_id, video_ids):
-    video_ids_to_add = check_playlist_items(playlist_id, video_ids)
-    for video_id in video_ids_to_add:
+    for video_id in video_ids:
         video_obj = {
             "snippet": {
                 "playlistId": playlist_id,
@@ -79,10 +85,3 @@ def add_songs_to_playlist(playlist_id, video_ids):
                 print(f"Video with ID {video_id} not found.")
             else:
                 print(f"Error adding video {video_id} to playlist: {e}")
-
-
-playlist_id = make_playlist('USA 1988-1999','Hip Hop')
-
-video_ids = get_ids_regex()
-
-add_songs_to_playlist(playlist_id,video_ids)
