@@ -7,7 +7,8 @@ import logging
 # from search import search_tracks, validate_input
 # from playlist import create_playlist
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
+
 
 logging.basicConfig(level=logging.DEBUG)
 app.logger.setLevel(logging.DEBUG)
