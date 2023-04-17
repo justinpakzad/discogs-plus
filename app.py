@@ -3,7 +3,7 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from flask import Flask, render_template, request, redirect, url_for
 import logging
-from database import conn_pool
+# from database import conn_pool
 # from search import search_tracks, validate_input
 from playlist import create_playlist
 
