@@ -15,14 +15,14 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
 
     q = f"""
     WITH filtered_drd AS (
-    SELECT *,
-        COUNT(*) OVER (PARTITION BY artist_name) as artist_release_count
-    FROM trimmed_denormalized_release_data
-    WHERE
-        genre = %s
-        AND format LIKE ANY(%s)
-        AND release_year BETWEEN %s AND %s
-        AND country LIKE ANY(%s)
+        SELECT *,
+            COUNT(*) OVER (PARTITION BY artist_name) as artist_release_count
+        FROM trimmed_denormalized_release_data
+        WHERE
+            genre = %s
+            AND format LIKE ANY(%s)
+            AND release_year BETWEEN %s AND %s
+            AND country LIKE ANY(%s)
     )
     SELECT DISTINCT ON (filtered_drd.artist_name)
         r.id as release_id,
@@ -39,18 +39,13 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
     JOIN filtered_drd ON r.title = filtered_drd.title AND ra.artist_name = filtered_drd.artist_name
     WHERE
         ra.role = ''
-        AND EXISTS (
-            SELECT 1
-            FROM unnest(%s::TEXT[]) AS s
-            WHERE filtered_drd.style LIKE s
-        )
+        AND filtered_drd.style LIKE ANY(ARRAY(SELECT '%' || s || '%' FROM unnest(%s::TEXT[]) AS s))
         {one_release_condition}
         {no_master_condition}
     ORDER BY filtered_drd.artist_name, filtered_drd.release_year, r.title, filtered_drd.country
     {limit_clause}
-    LIMIT 5
+    LIMIT 50
     """
-
     cursor.execute(q, (genre, formatz, year_from, year_to, countries, style))
     results = cursor.fetchall()
     tracks = [{'release_id': release_id, 'artist': artist, 'title': title, 'label': label, 'year': release_year, 'country': country,'video':video} for
