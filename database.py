@@ -8,15 +8,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def create_connection() -> pg8000.dbapi.Connection:
-    # credentials_json = os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"]
-    # credentials_dict = json.loads(credentials_json)
-    # credentials = service_account.Credentials.from_service_account_info(credentials_dict)
+    credentials_json = os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"]
+    credentials_dict = json.loads(credentials_json)
+    credentials = service_account.Credentials.from_service_account_info(credentials_dict)
 
     instance_connection_name = os.environ["INSTANCE_CONNECTION_NAME"]
     db_user = os.environ["USER_DB"]
     db_pass = os.environ["PASSWORD"]
     db_name = os.environ["DATABASE_NAME"]
-    connector = Connector()
+    connector = Connector(credentials=credentials)
 
     conn: pg8000.dbapi.Connection = connector.connect(
         instance_connection_name,
@@ -27,4 +27,4 @@ def create_connection() -> pg8000.dbapi.Connection:
     )
     return conn
 
-connection = create_connection()
+
