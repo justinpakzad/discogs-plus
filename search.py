@@ -1,5 +1,4 @@
-import time
-# from style_genres import genres, styles, country, formats
+from style_genres import genres, styles, country, formats
 
 
 def search_tracks(conn, genre, search_format, style, year_from, year_to, countries, one_release=False, no_master=False, limit_results=False):
@@ -58,36 +57,36 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
     return tracks
 
 
-# def validate_input(g, s, c, f):
-#     valid_genre = genres
-#     valid_styles = styles
-#     valid_countries = country
-#     valid_format  = formats
+def validate_input(g, s, c, f):
+    valid_genre = genres
+    valid_styles = styles
+    valid_countries = country
+    valid_format  = formats
 
-#     if g  != 'Electronic':
-#         return False
+    if g  != 'Electronic':
+        return False
 
-#     if ',' in s:
-#         s_list = s.split(',')
-#         for styl in s_list:
-#             if styl not in valid_styles:
-#                 return False
-#     elif s not in valid_styles:
-#             return False
+    if ',' in s:
+        s_list = s.split(',')
+        for styl in s_list:
+            if styl not in valid_styles:
+                return False
+    elif s not in valid_styles:
+            return False
 
-#     if ',' in c:
-#         c_list = c.split(',')
-#         for ct in c_list:
-#             if ct not in valid_countries:
-#                 return False
-#     elif c not in valid_countries:
-#         return False
+    if ',' in c:
+        c_list = c.split(',')
+        for ct in c_list:
+            if ct not in valid_countries:
+                return False
+    elif c not in valid_countries:
+        return False
 
-#     if ',' in f:
-#         f_list = f.split(',')
-#         for form in f_list:
-#             if form not in valid_format:
-#                 return False
-#     elif f not in valid_format:
-#         return False
-#     return True
+    if ',' in f:
+        f_list = f.split(',')
+        for form in f_list:
+            if form not in valid_format:
+                return False
+    elif f not in valid_format:
+        return False
+    return True

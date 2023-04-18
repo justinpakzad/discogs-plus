@@ -6,10 +6,8 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask.logging import create_logger
 import logging
 from dotenv import load_dotenv  # Add this line
-import json
-# from database import conn_pool
-# from search import search_tracks, validate_input
-# from playlist import create_playlist
+from search import search_tracks,validate_input
+from playlist import create_playlist
 load_dotenv()
 app = Flask(__name__)
 LOG = create_logger(app)
@@ -29,23 +27,23 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/test_db")
-def test_connection():
-    connection = create_connection()  # Create a connection
-    if connection:
-        try:
-            cursor = connection.cursor()
-            cursor.execute("SELECT * FROM release_artist_trimmed LIMIT 5")
-            result = cursor.fetchall()
-            return str(result)
-        except Exception as e:
-            LOG.error(f"An error occurred while testing the connection: {e}")
-            return f"An error occurred while testing the connection: {e}", 500
-        finally:
-            connection.close()  # Close the connection
-    else:
-        LOG.error("No connection available")
-        return "No connection available", 500
+# @app.route("/test_db")
+# def test_connection():
+#     connection = create_connection()  # Create a connection
+#     if connection:
+#         try:
+#             cursor = connection.cursor()
+#             cursor.execute("SELECT * FROM release_artist_trimmed LIMIT 5")
+#             result = cursor.fetchall()
+#             return str(result)
+#         except Exception as e:
+#             LOG.error(f"An error occurred while testing the connection: {e}")
+#             return f"An error occurred while testing the connection: {e}", 500
+#         finally:
+#             connection.close()  # Close the connection
+#     else:
+#         LOG.error("No connection available")
+#         return "No connection available", 500
 
 
 
@@ -73,31 +71,31 @@ def search():
     if any(x is None or x.strip() == '' for x in [search_params["genre"], search_params["style"], search_params["countries"], search_params["search_format"], search_params["year_from"], search_params["year_to"]]):
         return redirect(url_for('home'))
 
-    # if not validate_input(search_params["genre"], search_params["style"], search_params["countries"], search_params["search_format"]):
-    #     return redirect(url_for('home'))
+    if not validate_input(search_params["genre"], search_params["style"], search_params["countries"], search_params["search_format"]):
+        return redirect(url_for('home'))
 
-    # connection = create_connection()
+    connection = create_connection()
 
-    # if connection:
-    #     try:
-    #         gen_playlist = search_params.pop("gen_playlist")  # Remove 'gen_playlist' from search_params
-    #         playlist_name = search_params.pop("playlist_name")  # Remove 'playlist_name' from search_params
-    #         playlist_description = search_params.pop("playlist_description")  # Remove 'playlist_description' from search_params
+    if connection:
+        try:
+            gen_playlist = search_params.pop("gen_playlist")  # Remove 'gen_playlist' from search_params
+            playlist_name = search_params.pop("playlist_name")  # Remove 'playlist_name' from search_params
+            playlist_description = search_params.pop("playlist_description")  # Remove 'playlist_description' from search_params
 
-    #         tracks = search_tracks(connection, **search_params)
-    #         if gen_playlist:
-    #             create_playlist(tracks, playlist_name, playlist_description)
-    #             return render_template('home.html')
-    #         else:
-    #             return render_template("results.html", tracks=tracks, **search_params)
-    #     except Exception as e:
-    #         app.logger.error(f"An error occurred while searching tracks: {e}")
-    #         return f"An error occurred while searching tracks: {e}", 500
-    #     finally:
-    #         conn_pool.putconn(connection)
-    # else:
-    #     app.logger.error("No connection available")
-    #     return "No connection available", 500
+            tracks = search_tracks(connection, **search_params)
+            if gen_playlist:
+                create_playlist(tracks, playlist_name, playlist_description)
+                return render_template('home.html')
+            else:
+                return render_template("results.html", tracks=tracks, **search_params)
+        except Exception as e:
+            LOG.error(f"An error occurred while searching tracks: {e}")
+            return f"An error occurred while searching tracks: {e}", 500
+        finally:
+            connection.close()
+    else:
+        LOG.error("No connection available")
+        return "No connection available", 500
 
 if __name__ == '__main__':
     app.run(debug=True)
