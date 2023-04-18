@@ -1,4 +1,4 @@
-# from style_genres import genres, styles, country, formats
+from style_genres import genres, styles, country, formats
 
 
 def search_tracks(conn, genre, search_format, style, year_from, year_to, countries, one_release=False, no_master=False, limit_results=False):
