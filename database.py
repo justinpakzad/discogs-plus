@@ -59,9 +59,4 @@ def make_query(query):
     query = text(query)
     with engine.connect() as connection:
         result = connection.execute(query).fetchall()
-        # Get the column names from the result set
-        column_names = result[0].keys()
-        # Convert the rows to dictionaries
-        rows = [dict(zip(column_names, row)) for row in result]
-        json_string = json.dumps(rows)
-    return json_string
+    return result
