@@ -53,7 +53,6 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
 
 
 def validate_input(g, s, c, f):
-    valid_genre = genres
     valid_styles = styles
     valid_countries = country
     valid_format  = formats
