@@ -26,5 +26,3 @@ def create_connection() -> pg8000.dbapi.Connection:
         db=db_name
     )
     return conn
-
-

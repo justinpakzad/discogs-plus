@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask.logging import create_logger
 import logging
 from dotenv import load_dotenv  # Add this line
-from search import search_tracks,validate_input
+from search import search_tracks
 from playlist import create_playlist
 load_dotenv()
 app = Flask(__name__)
@@ -71,8 +71,8 @@ def search():
     if any(x is None or x.strip() == '' for x in [search_params["genre"], search_params["style"], search_params["countries"], search_params["search_format"], search_params["year_from"], search_params["year_to"]]):
         return redirect(url_for('home'))
 
-    if not validate_input(search_params["genre"], search_params["style"], search_params["countries"], search_params["search_format"]):
-        return redirect(url_for('home'))
+    # if not validate_input(search_params["genre"], search_params["style"], search_params["countries"], search_params["search_format"]):
+    #     return redirect(url_for('home'))
 
     connection = create_connection()
 

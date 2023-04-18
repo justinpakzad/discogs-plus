@@ -16,5 +16,3 @@ def create_playlist(tracks, playlist_name, playlist_description):
     add_songs_to_playlist(playlist_id, vid_ids)
     playlist_end = time.time()
     print(f"Creating playlist took {playlist_end - playlist_start:.2f} seconds")
-
-
