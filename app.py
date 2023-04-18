@@ -2,6 +2,7 @@ import sys
 import os
 import time
 import sqlalchemy
+from sqlalchemy import text
 from google.oauth2 import service_account
 from google.cloud.sql.connector import Connector, IPTypes
 import pg8000
@@ -110,8 +111,9 @@ def connect_with_connector() -> sqlalchemy.engine.base.Engine:
 @app.route("/test_db")
 def test_connection():
     engine = connect_with_connector()
+    query = text("SELECT * FROM release_artist_trimmed LIMIT 5")
     with engine.connect() as connection:
-        result = connection.execute("SELECT * FROM release_artist_trimmed LIMIT 5")
+        result = connection.execute(query)
         rows = [dict(row) for row in result]
     return jsonify(rows)
 
