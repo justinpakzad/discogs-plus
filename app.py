@@ -37,10 +37,10 @@ def test_db():
     start_time = time.time()
     try:
         connection = psycopg2.connect(
-            host=os.environ.get('HOST'),
-            dbname=os.environ.get('DATABASE_NAME'),
+            host=os.environ.get('LOCALHOST'),
+            dbname=os.environ.get('LOCAL_DB'),
             user=os.environ.get('USER_DB'),
-            password=os.environ.get('PASSWORD'),
+            password=os.environ.get('LOCAL_PASSWORD'),
             port=os.environ.get('PORT')
         )
         if connection:
