@@ -13,3 +13,4 @@ requests==2.28.2
 python-dotenv==1.0.0
 cloud-sql-python-connector==1.2.2
 pg8000==1.29.4
+mysql-connector-python==8.0.33

@@ -39,12 +39,12 @@ def test_connection():
             result = cursor.fetchall()
             return str(result)
         except Exception as e:
-            app.logger.error(f"An error occurred while testing the connection: {e}")
+            LOG.error(f"An error occurred while testing the connection: {e}")
             return f"An error occurred while testing the connection: {e}", 500
         finally:
             connection.close()  # Close the connection
     else:
-        app.logger.error("No connection available")
+        LOG.error("No connection available")
         return "No connection available", 500
 
 
