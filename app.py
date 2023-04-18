@@ -39,13 +39,13 @@ def test_db():
         LOG.debug(os.environ.get('DATABASE_NAME'))
         LOG.debug(os.environ.get('USER_DB'))
         LOG.debug(os.environ.get('PASSWORD'))
-        LOG.debug(os.environ.get('PORT'))
+        LOG.debug(os.environ.get('DB_PORT'))
         connection = psycopg2.connect(
         host=os.environ.get('HOST'),
         dbname=os.environ.get('DATABASE_NAME'),
         user=os.environ.get('USER_DB'),
         password=os.environ.get('PASSWORD'),
-        port=os.environ.get('PORT', '5432'))
+        port=os.environ.get('DB_PORT', '5432'))
         if connection:
             end_time = time.time()
             LOG.debug(f"Connection successful, time elapsed: {end_time - start_time} seconds")
