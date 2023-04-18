@@ -114,7 +114,7 @@ def test_connection():
     query = text("SELECT * FROM release_artist_trimmed LIMIT 5")
     with engine.connect() as connection:
         result = connection.execute(query)
-        rows = [row._mapping for row in result]
+        rows = [dict(row) for row in result]
     return jsonify(rows)
 
 
