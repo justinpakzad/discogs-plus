@@ -1,6 +1,6 @@
 import sys
 import os
-from database import make_query
+from database import create_connection
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from flask import Flask, render_template, request, redirect, url_for
 from flask.logging import create_logger
@@ -31,7 +31,22 @@ def about():
 
 @app.route("/test_db")
 def test_connection():
-    return make_query("SELECT * FROM release_artist_trimmed LIMIT 5")
+    connection = create_connection()  # Create a connection
+    if connection:
+        try:
+            cursor = connection.cursor()
+            cursor.execute("SELECT * FROM release_artist_trimmed LIMIT 5")
+            result = cursor.fetchall()
+            return str(result)
+        except Exception as e:
+            app.logger.error(f"An error occurred while testing the connection: {e}")
+            return f"An error occurred while testing the connection: {e}", 500
+        finally:
+            connection.close()  # Close the connection
+    else:
+        app.logger.error("No connection available")
+        return "No connection available", 500
+
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -61,7 +76,7 @@ def search():
     # if not validate_input(search_params["genre"], search_params["style"], search_params["countries"], search_params["search_format"]):
     #     return redirect(url_for('home'))
 
-    # connection = conn_pool.getconn()
+    # connection = create_connection()
 
     # if connection:
     #     try:
