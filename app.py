@@ -113,9 +113,10 @@ def test_connection():
     engine = connect_with_connector()
     query = text("SELECT * FROM release_artist_trimmed LIMIT 5")
     with engine.connect() as connection:
-        result = connection.execute(query)
-        rows = [dict(row) for row in result]
-    return jsonify(rows)
+        result = connection.execute(query).fetchall()
+        result = [tuple(row) for row in result]
+        json_string = json.dumps(result)
+    return json_string
 
 
 @app.route("/search", methods=["GET", "POST"])
