@@ -1,17 +1,15 @@
 import sys
 import os
+import time
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from flask import Flask, render_template, request, redirect, url_for
 import logging
 import psycopg2  # Add this line
 from dotenv import load_dotenv  # Add this line
-dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
-load_dotenv(dotenv_path)
 # from database import conn_pool
 # from search import search_tracks, validate_input
 from playlist import create_playlist
-
-import time
+load_dotenv()
 app = Flask(__name__)
 
 
@@ -37,10 +35,10 @@ def test_db():
     start_time = time.time()
     try:
        connection = psycopg2.connect(
-        host=os.environ.get('HOST', 'localhost'),
-        dbname=os.environ.get('DATABASE_NAME', 'your_default_db_name'),
-        user=os.environ.get('USER_DB', 'your_default_user'),
-        password=os.environ.get('PASSWORD', 'your_default_password'),
+        host=os.environ.get('HOST'),
+        dbname=os.environ.get('DATABASE_NAME'),
+        user=os.environ.get('USER_DB'),
+        password=os.environ.get('PASSWORD'),
         port=os.environ.get('PORT', '5432')
 )
         if connection:
