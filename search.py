@@ -41,7 +41,7 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
         ra.role = ''
         AND EXISTS (
             SELECT 1
-            FROM unnest(%s) AS s
+            FROM unnest(%s::TEXT[]) AS s
             WHERE filtered_drd.style LIKE s
         )
         {one_release_condition}
