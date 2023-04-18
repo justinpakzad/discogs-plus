@@ -1,5 +1,8 @@
-from style_genres import styles, country, formats
-
+style_genres = __import__('style_genres')
+styles = style_genres.styles
+country = style_genres.country
+formats = style_genres.formats
+import os
 
 def search_tracks(conn, genre, search_format, style, year_from, year_to, countries, one_release=False, no_master=False, limit_results=False):
     cursor = conn.cursor()
@@ -84,3 +87,4 @@ def validate_input(g, s, c, f):
     elif f not in valid_format:
         return False
     return True
+print(os.getcwd())
