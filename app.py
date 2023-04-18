@@ -28,30 +28,30 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/test_db")
-def test_db():
-    connection = None
-    app.logger.debug("Starting connection attempt")
-    start_time = time.time()
-    try:
-       connection = psycopg2.connect(
-        host=os.environ.get('HOST'),
-        dbname=os.environ.get('DATABASE_NAME'),
-        user=os.environ.get('USER_DB'),
-        password=os.environ.get('PASSWORD'),
-        port=os.environ.get('PORT', '5432')
-)
-        if connection:
-            end_time = time.time()
-            app.logger.debug(f"Connection successful, time elapsed: {end_time - start_time} seconds")
-            return "Connection to the database is successful!"
-    except Exception as e:
-        end_time = time.time()
-        app.logger.error(f"An error occurred while connecting to the database: {e}, time elapsed: {end_time - start_time} seconds")
-        return f"An error occurred while connecting to the database: {e}", 500
-    finally:
-        if connection:
-            connection.close()
+# @app.route("/test_db")
+# def test_db():
+#     connection = None
+#     app.logger.debug("Starting connection attempt")
+#     start_time = time.time()
+#     try:
+#        connection = psycopg2.connect(
+#         host=os.environ.get('HOST'),
+#         dbname=os.environ.get('DATABASE_NAME'),
+#         user=os.environ.get('USER_DB'),
+#         password=os.environ.get('PASSWORD'),
+#         port=os.environ.get('PORT', '5432')
+# )
+#         if connection:
+#             end_time = time.time()
+#             app.logger.debug(f"Connection successful, time elapsed: {end_time - start_time} seconds")
+#             return "Connection to the database is successful!"
+#     except Exception as e:
+#         end_time = time.time()
+#         app.logger.error(f"An error occurred while connecting to the database: {e}, time elapsed: {end_time - start_time} seconds")
+#         return f"An error occurred while connecting to the database: {e}", 500
+#     finally:
+#         if connection:
+#             connection.close()
 
 @app.route("/search", methods=["GET", "POST"])
 def search():
