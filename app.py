@@ -35,6 +35,11 @@ def test_db():
     LOG.debug("Starting connection attempt")
     start_time = time.time()
     try:
+        LOG.debug(os.environ.get('HOST'))
+        LOG.debug(os.environ.get('DATABASE_NAME'))
+        LOG.debug(os.environ.get('USER_DB'))
+        LOG.debug(os.environ.get('PASSWORD'))
+        LOG.debug(os.environ.get('PORT'))
         connection = psycopg2.connect(
         host=os.environ.get('HOST'),
         dbname=os.environ.get('DATABASE_NAME'),
