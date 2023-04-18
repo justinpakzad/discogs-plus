@@ -20,7 +20,7 @@ LOG = create_logger(app)
 logging.basicConfig(level=logging.DEBUG)
 LOG.setLevel(logging.DEBUG)
 
-
+# Testing
 @app.route("/")
 @app.route("/home")
 def home():
