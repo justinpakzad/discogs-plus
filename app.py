@@ -5,7 +5,7 @@ import sqlalchemy
 from google.cloud.sql.connector import Connector, IPTypes
 import pg8000
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for,jsonify
 from flask.logging import create_logger
 import logging
 import psycopg2  # Add this line
@@ -32,7 +32,8 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/test_db")
+
+
 def connect_with_connector() -> sqlalchemy.engine.base.Engine:
     """
     Initializes a connection pool for a Cloud SQL instance of Postgres.
@@ -101,6 +102,16 @@ def connect_with_connector() -> sqlalchemy.engine.base.Engine:
     # finally:
     #     if connection:
     #         connection.close()
+
+@app.route("/test_db")
+def test_connection():
+    engine = connect_with_connector()
+    with engine.connect() as connection:
+        result = connection.execute("SELECT * FROM release_artist_trimmed LIMIT 5")
+        rows = [dict(row) for row in result]
+    return jsonify(rows)
+
+
 
 @app.route("/search", methods=["GET", "POST"])
 def search():
