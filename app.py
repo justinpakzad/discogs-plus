@@ -2,6 +2,7 @@ import sys
 import os
 import time
 import sqlalchemy
+from google.oauth2 import service_account
 from google.cloud.sql.connector import Connector, IPTypes
 import pg8000
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -10,6 +11,7 @@ from flask.logging import create_logger
 import logging
 import psycopg2  # Add this line
 from dotenv import load_dotenv  # Add this line
+import json
 # from database import conn_pool
 # from search import search_tracks, validate_input
 # from playlist import create_playlist
@@ -32,7 +34,9 @@ def about():
     return render_template("about.html")
 
 
-
+credentials_json = os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"]
+credentials_dict = json.loads(credentials_json)
+credentials = service_account.Credentials.from_service_account_info(credentials_dict)
 
 def connect_with_connector() -> sqlalchemy.engine.base.Engine:
     """
@@ -53,7 +57,7 @@ def connect_with_connector() -> sqlalchemy.engine.base.Engine:
     ip_type = IPTypes.PRIVATE if os.environ.get("PRIVATE_IP") else IPTypes.PUBLIC
 
     # initialize Cloud SQL Python Connector object
-    connector = Connector()
+    connector = Connector(credentials=credentials)
 
     def getconn() -> pg8000.dbapi.Connection:
         LOG.debug("Starting connection attempt")
