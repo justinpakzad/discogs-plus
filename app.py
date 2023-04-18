@@ -29,7 +29,7 @@ def home():
 def about():
     return render_template("about.html")
 
-# test
+
 @app.route("/test_db")
 def test_db():
     connection = None
