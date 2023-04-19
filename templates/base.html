@@ -119,12 +119,14 @@
 
         if (document.documentElement.innerHTML.includes(herokuErrorMessage)) {
           window.location.href = "/timeout_error";
+          setTimeout(checkForHerokuError, 30000);
         } else {
           setTimeout(checkForHerokuError, 1000);
         }
       }
 
       setTimeout(checkForHerokuError, 30000);
+    </script>
 
   </script>
 </body>
