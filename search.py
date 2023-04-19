@@ -87,11 +87,18 @@ def validate_input(g, s, c, f):
 
 
 
+
+
+
+
+
+
 # def get_filtered_data(cur, genre, search_format, release_year_start, release_year_end, countries, style, one_release=False):
 
 #     one_release_condition = f"AND artist_release_count = 1" if one_release else ""
 #     style = ['%' + s.strip() + '%' for s in style.split(',')] if style else ['%']
 #     formatz = [f.strip() for f in search_format.split(',')]  if search_format else ['%']
+#     countries = [c.strip() for c in countries.split(',')] if countries else ['%']
 #     query = f"""
 #         SELECT *,
 #             COUNT(*) OVER (PARTITION BY artist_name) as artist_release_count
@@ -104,7 +111,6 @@ def validate_input(g, s, c, f):
 #             AND style LIKE ANY(ARRAY(SELECT '%' || s || '%' FROM unnest(%s::TEXT[]) AS s))
 #             {one_release_condition}
 #     """
-#     print(query)
 #     cur.execute(query, (genre, formatz, release_year_start, release_year_end, countries, style))
 #     return cur.fetchall()
 
@@ -170,13 +176,15 @@ def validate_input(g, s, c, f):
 
 #     return tracks
 
-# connection = create_connection()
+# connection = create_cloud_connection()
 # cur = connection.cursor()
 
-# filtered_data_results = get_filtered_data(cur, 'Electronic', 'CD', 1990, 2000, 'US', 'Techno')
+# filtered_data_results = get_filtered_data(cur, 'Electronic', 'CD', 1990, 1991, 'US', 'Techno')
 # print(filtered_data_results)
 # release_ids = [row[0] for row in filtered_data_results]
+
 # release_data_results = get_release_data(cur, release_ids)
+
 # video_data_results = get_video_data(cur, release_ids)
 
 # cur.close()
@@ -184,4 +192,3 @@ def validate_input(g, s, c, f):
 
 # tracks = merge_and_format_results(filtered_data_results, release_data_results, video_data_results)
 # tracks = tracks[:10]
-# print(tracks)

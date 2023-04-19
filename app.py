@@ -8,7 +8,6 @@ import logging
 from dotenv import load_dotenv  # Add this line
 from search import search_tracks,validate_input
 from playlist import create_playlist
-from werkzeug.exceptions import RequestTimeout
 load_dotenv()
 app = Flask(__name__)
 LOG = create_logger(app)
@@ -45,7 +44,7 @@ def search():
         "no_master": request.args.get('no_master') == 'on',
         "gen_playlist": request.args.get('generate_playlist') == 'on',
         "playlist_name": request.args.get('playlist_name'),
-        "playlist_description": request.args.get('playlist_description'),
+        "playlist_description": request.args.get('playlist_description')
     }
 
     if any(x is None or x.strip() == '' for x in [search_params["genre"], search_params["style"], search_params["countries"], search_params["search_format"], search_params["year_from"], search_params["year_to"]]):
@@ -61,8 +60,10 @@ def search():
             gen_playlist = search_params.pop("gen_playlist")
             playlist_name = search_params.pop("playlist_name")
             playlist_description = search_params.pop("playlist_description")
+            limit_results = search_params.pop("limit_results")
 
             tracks = search_tracks(connection, **search_params)
+
             if gen_playlist:
                 create_playlist(tracks, playlist_name, playlist_description)
                 return render_template('home.html')
