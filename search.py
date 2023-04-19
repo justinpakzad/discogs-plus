@@ -84,3 +84,104 @@ def validate_input(g, s, c, f):
     elif f not in valid_format:
         return False
     return True
+
+
+
+# def get_filtered_data(cur, genre, search_format, release_year_start, release_year_end, countries, style, one_release=False):
+
+#     one_release_condition = f"AND artist_release_count = 1" if one_release else ""
+#     style = ['%' + s.strip() + '%' for s in style.split(',')] if style else ['%']
+#     formatz = [f.strip() for f in search_format.split(',')]  if search_format else ['%']
+#     query = f"""
+#         SELECT *,
+#             COUNT(*) OVER (PARTITION BY artist_name) as artist_release_count
+#         FROM trimmed_denormalized_release_data
+#         WHERE
+#             genre = %s
+#             AND format LIKE ANY(%s)
+#             AND release_year BETWEEN %s AND %s
+#             AND country LIKE ANY(%s)
+#             AND style LIKE ANY(ARRAY(SELECT '%' || s || '%' FROM unnest(%s::TEXT[]) AS s))
+#             {one_release_condition}
+#     """
+#     print(query)
+#     cur.execute(query, (genre, formatz, release_year_start, release_year_end, countries, style))
+#     return cur.fetchall()
+
+# def get_release_data(cur, release_ids, no_master=False):
+#     no_master_condition = f"AND r.master_id IS NULL" if no_master else ""
+
+#     query = f"""
+#         SELECT r.id as release_id,
+#             ra.artist_name,
+#             r.title,
+#             ra.role
+#         FROM release_trimmed r
+#         JOIN release_artist_trimmed ra ON r.id = ra.release_id
+#         WHERE r.id = ANY(%s)
+#         AND ra.role = ''
+#         {no_master_condition}
+#     """
+
+#     cur.execute(query, (release_ids,))
+#     return cur.fetchall()
+
+# def get_video_data(cur, release_ids):
+#     query = """
+#         SELECT r.id as release_id,
+#             rv.uri
+#         FROM release_trimmed r
+#         JOIN release_video_trimmed rv ON r.id = rv.release_id
+#         WHERE r.id = ANY(%s)
+#     """
+
+#     cur.execute(query, (release_ids,))
+#     return cur.fetchall()
+
+# def merge_and_format_results(filtered_data_results, release_data_results, video_data_results):
+#     tracks = []
+
+#     for filtered_data_row in filtered_data_results:
+#         release_id = filtered_data_row[0]
+#         artist_name = filtered_data_row[1]
+#         title = filtered_data_row[2]
+#         label_name = filtered_data_row[3]
+#         release_year = filtered_data_row[4]
+#         country = filtered_data_row[5]
+
+#         matching_release_data = [row for row in release_data_results if row[0] == release_id]
+
+#         if not matching_release_data:
+#             continue
+
+#         matching_video_data = [row for row in video_data_results if row[0] == release_id]
+#         video_uri = matching_video_data[0][1] if matching_video_data else None
+
+#         track = {
+#             'release_id': release_id,
+#             'artist': artist_name,
+#             'title': title,
+#             'label': label_name,
+#             'year': release_year,
+#             'country': country,
+#             'video': video_uri
+#         }
+#         tracks.append(track)
+
+#     return tracks
+
+# connection = create_connection()
+# cur = connection.cursor()
+
+# filtered_data_results = get_filtered_data(cur, 'Electronic', 'CD', 1990, 2000, 'US', 'Techno')
+# print(filtered_data_results)
+# release_ids = [row[0] for row in filtered_data_results]
+# release_data_results = get_release_data(cur, release_ids)
+# video_data_results = get_video_data(cur, release_ids)
+
+# cur.close()
+# connection.close()
+
+# tracks = merge_and_format_results(filtered_data_results, release_data_results, video_data_results)
+# tracks = tracks[:10]
+# print(tracks)
