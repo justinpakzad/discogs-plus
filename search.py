@@ -44,6 +44,7 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
         {no_master_condition}
     ORDER BY filtered_drd.artist_name, filtered_drd.release_year, r.title, filtered_drd.country
     {limit_clause}
+    LIMIT 25
     """
     cursor.execute(q, (genre, formatz, year_from, year_to, countries, style))
     results = cursor.fetchall()
