@@ -47,21 +47,41 @@ Planned improvements and features to be added in the future include:
 - Additional search and filtering options
 
 
-## Local Setup
+## Installation and Usage
 
-This project can be run locally for demonstration purposes. To set it up on your machine, follow these steps:
+To set up and run the DiscogsPlus project locally, follow these steps:
 
-1. Clone the repository to your local machine:
-    ```
-    git clone https://github.com/justinpakzad/DiscogsPlus.git
-    ```
-2. Install the required Python packages:
+### Prerequisites
+
+- Python 3.7 or later
+- pip (Python package installer)
+- PostgreSQL
+
+### Setup
+
+1. Clone the repository:
+  ```
+  git clone https://github.com/justinpakzad/DiscogsPlus.git
+  ```
+2. Create a virtual environment and activate it:
+  python -m venv venv
+  source venv/bin/activate # For Linux/MacOS
+  venv\Scripts\activate # For Windows
+3. Install the required Python packages:
     ```
     pip install -r requirements.txt
     ```
-3. Set up your environment variables in a `.env` file in the project root directory. The file should include the following variables:
+4. Set up the PostgreSQL database:
 
-    ```
+   - Download the Discogs Data Dump and extract the necessary data.
+   - Create a new PostgreSQL database and import the extracted data.
+
+
+5. Set up the environment variables:
+
+   - Create a `.env` file in the project root directory.
+   - Add the following variables and replace the placeholders with your actual values:
+   ```
     # Database configuration
     HOST=<your_database_host>
     DATABASE_NAME=<your_database_name>
@@ -73,11 +93,13 @@ This project can be run locally for demonstration purposes. To set it up on your
     YOUTUBE_CLIENT_SECRETS_FILE=<path_to_your_client_secrets_file>
     ```
     Replace the placeholders with your actual credentials and API keys.
-4. Run the Flask app:
-    ```
-    python app.py
-    ```
-5. Open a web browser and navigate to `http://127.0.0.1:5000` to access the app.
+### Running the Project
+
+1. Start the Flask development server:
+    ``` python app.py
+2. Open your web browser and navigate to `http://localhost:5000` to access the DiscogsPlus web application.
+
+3. Use the search and filtering options to find music and create YouTube playlists based on your preferences.
 
 Please note that this project is primarily intended for local use and demonstration. Some features may not be fully functional when deployed to a web server.
 ``
