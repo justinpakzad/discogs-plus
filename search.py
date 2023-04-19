@@ -84,4 +84,3 @@ def validate_input(g, s, c, f):
     elif f not in valid_format:
         return False
     return True
-print(os.getcwd())

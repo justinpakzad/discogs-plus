@@ -8,6 +8,7 @@ import logging
 from dotenv import load_dotenv  # Add this line
 from search import search_tracks,validate_input
 from playlist import create_playlist
+from werkzeug.exceptions import RequestTimeout
 load_dotenv()
 app = Flask(__name__)
 LOG = create_logger(app)
@@ -75,6 +76,13 @@ def search():
     else:
         LOG.error("No connection available")
         return "No connection available", 500
+
+
+@app.errorhandler(RequestTimeout)
+def handle_request_timeout(e):
+    return render_template('timeout_error.html'), 408
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
