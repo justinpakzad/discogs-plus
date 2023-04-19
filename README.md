@@ -6,7 +6,7 @@ DiscogsPlus is a work-in-progress project that aims to improve the user experien
 
 DiscogsPlus is an advanced search engine for Discogs, designed to help users discover obscure music and create YouTube playlists based on specific search parameters. The project's motivation is to enhance the Discogs experience by providing more refined search options and seamless integration with YouTube playlists.
 
-## Technical Overview
+## Overview
 
 The project is built using Python, Flask, and PostgreSQL. It utilizes the Discogs Data Dump for obtaining music data and the YouTube API for creating and managing playlists. The data is extracted from the Discogs Data Dump and stored in a local PostgreSQL database. A subset of the data, focused primarily on the electronic genre, is hosted in the cloud to improve performance.
 
