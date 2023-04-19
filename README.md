@@ -77,6 +77,7 @@ To set up and run the DiscogsPlus project locally, follow these steps:
 
   - Download the Discogs Data Dump and extract the necessary data.
   - Create a new PostgreSQL database and import the extracted data.
+  - You can follow instructions on [**discogs-xml2db v2**](https://github.com/philipmat/discogs-xml2db) to load Discogs Data Dump into database.
 
 
 5. Set up the environment variables:
