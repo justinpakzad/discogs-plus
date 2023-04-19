@@ -14,7 +14,7 @@ The main components of the project include:
 
 - Flask web application for user interaction
 - PostgreSQL database for storing music data
-- APIs for accessing Discogs and YouTube services
+- API for accessing YouTube services
 
 ## Advanced Search Features
 
@@ -107,4 +107,3 @@ To set up and run the DiscogsPlus project locally, follow these steps:
 3. Use the search and filtering options to find music and create YouTube playlists based on your preferences.
 
 Please note that this project is primarily intended for local use and demonstration. Some features may not be fully functional when deployed to a web server.
-
