@@ -20,11 +20,16 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
         FROM trimmed_denormalized_release_data
         WHERE
             genre = %s
-            AND format LIKE ANY(%s)
+            AND format = ANY(%s)
             AND release_year BETWEEN %s AND %s
-            AND country LIKE ANY(%s)
+            AND country = ANY(%s)
+    ),
+    first_artist_release AS (
+        SELECT artist_name, MIN(id) as release_id
+        FROM filtered_drd
+        GROUP BY artist_name
     )
-    SELECT DISTINCT ON (filtered_drd.artist_name)
+    SELECT
         r.id as release_id,
         filtered_drd.artist_name,
         r.title,
@@ -36,7 +41,8 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
         release_trimmed r
     JOIN release_video_trimmed AS rv ON r.id = rv.release_id
     JOIN release_artist_trimmed ra ON r.id = ra.release_id
-    JOIN filtered_drd ON r.title = filtered_drd.title AND ra.artist_name = filtered_drd.artist_name
+    JOIN filtered_drd ON r.id = filtered_drd.id AND ra.artist_name = filtered_drd.artist_name
+    INNER JOIN first_artist_release far ON far.artist_name = filtered_drd.artist_name AND far.release_id = r.id
     WHERE
         ra.role = ''
         AND filtered_drd.style LIKE ANY(ARRAY(SELECT '%' || s || '%' FROM unnest(%s::TEXT[]) AS s))
