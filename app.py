@@ -8,12 +8,17 @@ import logging
 from dotenv import load_dotenv  # Add this line
 from search import search_tracks,validate_input
 from playlist import create_playlist
+from flask_caching import Cache
+import redis
 load_dotenv()
 app = Flask(__name__)
 LOG = create_logger(app)
 
 logging.basicConfig(level=logging.DEBUG)
 LOG.setLevel(logging.DEBUG)
+
+
+
 
 # Testing
 @app.route("/")

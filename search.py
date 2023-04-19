@@ -94,6 +94,22 @@ def validate_input(g, s, c, f):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # def get_filtered_data(cur, genre, search_format, release_year_start, release_year_end, countries, style, one_release=False):
 
 #     one_release_condition = f"AND artist_release_count = 1" if one_release else ""

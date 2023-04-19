@@ -14,3 +14,4 @@ python-dotenv==1.0.0
 cloud-sql-python-connector==1.2.2
 pg8000==1.29.4
 mysql-connector-python==8.0.33
+redis==4.5.4
