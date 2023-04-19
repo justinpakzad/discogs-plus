@@ -1,10 +1,11 @@
 from config import styles, country, formats
 import os
+
 def search_tracks(conn, genre, search_format, style, year_from, year_to, countries, one_release=False, no_master=False, limit_results=False):
     cursor = conn.cursor()
     style = ['%' + s.strip() + '%' for s in style.split(',')] if style else ['%']
     countries = [c.strip() for c in countries.split(',')] if countries else ['%']
-    formatz = [f.strip() for f in search_format.split(',')] if search_format else ['%']
+    formatz = [f.strip() for f in search_format.split(',')]  if search_format else ['%']
 
     limit_clause = "LIMIT 120" if limit_results else ""
 
@@ -19,17 +20,11 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
         FROM trimmed_denormalized_release_data
         WHERE
             genre = %s
-            AND format = ANY(%s)
+            AND format LIKE ANY(%s)
             AND release_year BETWEEN %s AND %s
-            AND country = ANY(%s)
-    ),
-    first_artist_release AS (
-        SELECT artist_name, MIN(r.id) as release_id
-        FROM filtered_drd
-        JOIN release_trimmed r ON r.title = filtered_drd.title
-        GROUP BY artist_name
+            AND country LIKE ANY(%s)
     )
-    SELECT
+    SELECT DISTINCT ON (filtered_drd.artist_name)
         r.id as release_id,
         filtered_drd.artist_name,
         r.title,
@@ -42,7 +37,6 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
     JOIN release_video_trimmed AS rv ON r.id = rv.release_id
     JOIN release_artist_trimmed ra ON r.id = ra.release_id
     JOIN filtered_drd ON r.title = filtered_drd.title AND ra.artist_name = filtered_drd.artist_name
-    INNER JOIN first_artist_release far ON far.artist_name = filtered_drd.artist_name AND far.release_id = r.id
     WHERE
         ra.role = ''
         AND filtered_drd.style LIKE ANY(ARRAY(SELECT '%' || s || '%' FROM unnest(%s::TEXT[]) AS s))
@@ -56,6 +50,7 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
     tracks = [{'release_id': release_id, 'artist': artist, 'title': title, 'label': label, 'year': release_year, 'country': country,'video':video} for
               release_id, artist, title, label, release_year, country,video in results]
     return tracks
+
 
 def validate_input(g, s, c, f):
     valid_styles = styles
