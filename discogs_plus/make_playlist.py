@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from  google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
 import googleapiclient.errors
 import json
 import re
@@ -14,61 +13,18 @@ load_dotenv()
 
 youtube = None
 
-from google.oauth2.credentials import Credentials
-
-
-def get_tokens():
-    client_id = os.environ.get("YOUTUBE_CLIENT_ID")
-    client_secret = os.environ.get("YOUTUBE_CLIENT_SECRET")
-    redirect_uri = "urn:ietf:wg:oauth:2.0:oob"  # For command-line use
-
-    oauth_scopes = [
-        "https://www.googleapis.com/auth/youtube",
-        "https://www.googleapis.com/auth/youtube.readonly",
-        "https://www.googleapis.com/auth/youtube.upload",
-        "https://www.googleapis.com/auth/youtubepartner",
-    ]
-
-    flow = InstalledAppFlow.from_client_info(
-        client_config={
-            "installed": {
-                "client_id": client_id,
-                "client_secret": client_secret,
-                "redirect_uris": [redirect_uri],
-                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                "token_uri": "https://accounts.google.com/o/oauth2/token",
-            }
-        },
-        scopes=oauth_scopes,
-    )
-
-    credentials = flow.run_local_server(port=0)
-    return credentials.access_token, credentials.refresh_token
-
-
 def authenticate_youtube():
     global youtube
-
-    client_id = os.environ.get("YOUTUBE_CLIENT_ID")
-    client_secret = os.environ.get("YOUTUBE_CLIENT_SECRET")
-    refresh_token = os.environ.get("YOUTUBE_REFRESH_TOKEN")
-    access_token = os.environ.get("YOUTUBE_ACCESS_TOKEN")
-
-    credentials = Credentials.from_authorized_user_info(
-        info={
-            "client_id": client_id,
-            "client_secret": client_secret,
-            "refresh_token": refresh_token,
-            "access_token": access_token
-        },
-        scopes=["https://www.googleapis.com/auth/youtube",
-                "https://www.googleapis.com/auth/youtube.readonly",
-                "https://www.googleapis.com/auth/youtube.upload",
-                "https://www.googleapis.com/auth/youtubepartner"]
-    )
-
+    client_secrets_file = os.environ.get('YOUTUBE_CLIENT_SECRETS_FILE')
+    flow = InstalledAppFlow.from_client_secrets_file(client_secrets_file,
+                                                      scopes=["https://www.googleapis.com/auth/youtube",
+                                                              "https://www.googleapis.com/auth/youtube.readonly",
+                                                              "https://www.googleapis.com/auth/youtube.upload",
+                                                              "https://www.googleapis.com/auth/youtubepartner"],
+                                                      redirect_uri="http://localhost:8080/")
+    flow.run_local_server(port=8080)
+    credentials = flow.credentials
     youtube = build("youtube", "v3", credentials=credentials)
-
 
 
 def make_playlist(title, description):

@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "discogs_plus"))
 from discogs_plus.youtube_api_search import get_ids_regex
-from discogs_plus.make_playlist import make_playlist, add_songs_to_playlist, authenticate_youtube,get_tokens
+from discogs_plus.make_playlist import make_playlist, add_songs_to_playlist, authenticate_youtube
 import time
 
 

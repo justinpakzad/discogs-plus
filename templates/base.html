@@ -113,22 +113,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoJtKh7z7lGz7fuP4F8nfdFvAOA6Gg/z6Y5J6XqqyGXYM2ntX1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js" integrity="sha384-SlE6xtp+6_GLwD1sZkcTowTTFJeg+1zj2h3qVCkzUI6D2V7gEMgDwAQ0n/1Ob6U+" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    script>
-        function checkStatus(response) {
-            if (response.status === 503) {
-                window.location.replace("/timeout_error");
-            }
-            return response;
-        }
-
-        function handleError(error) {
-            console.error('Error:', error);
-            window.location.replace("/timeout_error");
-        }
-
-        fetch(window.location.href)
-            .then(checkStatus)
-            .catch(handleError);
-  </script>
 </body>
 </html>
