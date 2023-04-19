@@ -1,6 +1,5 @@
 from config import styles, country, formats
 import os
-
 def search_tracks(conn, genre, search_format, style, year_from, year_to, countries, one_release=False, no_master=False, limit_results=False):
     cursor = conn.cursor()
     style = ['%' + s.strip() + '%' for s in style.split(',')] if style else ['%']
@@ -25,8 +24,9 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
             AND country = ANY(%s)
     ),
     first_artist_release AS (
-        SELECT artist_name, MIN(release_id) as release_id
+        SELECT artist_name, MIN(r.id) as release_id
         FROM filtered_drd
+        JOIN release_trimmed r ON r.title = filtered_drd.title
         GROUP BY artist_name
     )
     SELECT
@@ -41,7 +41,7 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
         release_trimmed r
     JOIN release_video_trimmed AS rv ON r.id = rv.release_id
     JOIN release_artist_trimmed ra ON r.id = ra.release_id
-    JOIN filtered_drd ON r.id = filtered_drd.release_id AND ra.artist_name = filtered_drd.artist_name
+    JOIN filtered_drd ON r.title = filtered_drd.title AND ra.artist_name = filtered_drd.artist_name
     INNER JOIN first_artist_release far ON far.artist_name = filtered_drd.artist_name AND far.release_id = r.id
     WHERE
         ra.role = ''
@@ -56,7 +56,6 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
     tracks = [{'release_id': release_id, 'artist': artist, 'title': title, 'label': label, 'year': release_year, 'country': country,'video':video} for
               release_id, artist, title, label, release_year, country,video in results]
     return tracks
-
 
 def validate_input(g, s, c, f):
     valid_styles = styles
