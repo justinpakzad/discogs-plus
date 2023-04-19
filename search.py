@@ -5,7 +5,7 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
     cursor = conn.cursor()
     style = ['%' + s.strip() + '%' for s in style.split(',')] if style else ['%']
     countries = [c.strip() for c in countries.split(',')] if countries else ['%']
-    formatz = [f.strip() for f in search_format.split(',')]  if search_format else ['%']
+    formatz = [f.strip() for f in search_format.split(',')] if search_format else ['%']
 
     limit_clause = "LIMIT 120" if limit_results else ""
 
@@ -25,7 +25,7 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
             AND country = ANY(%s)
     ),
     first_artist_release AS (
-        SELECT artist_name, MIN(id) as release_id
+        SELECT artist_name, MIN(release_id) as release_id
         FROM filtered_drd
         GROUP BY artist_name
     )
@@ -41,7 +41,7 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
         release_trimmed r
     JOIN release_video_trimmed AS rv ON r.id = rv.release_id
     JOIN release_artist_trimmed ra ON r.id = ra.release_id
-    JOIN filtered_drd ON r.id = filtered_drd.id AND ra.artist_name = filtered_drd.artist_name
+    JOIN filtered_drd ON r.id = filtered_drd.release_id AND ra.artist_name = filtered_drd.artist_name
     INNER JOIN first_artist_release far ON far.artist_name = filtered_drd.artist_name AND far.release_id = r.id
     WHERE
         ra.role = ''
