@@ -2,16 +2,82 @@
 
 DiscogsPlus is a work-in-progress project that aims to improve the user experience of Discogs by offering advanced search, filtering, and recommendation features. It includes a YouTube playlist generator based on search parameters and a recommendation system using collaborative filtering.
 
-## Features
+## Introduction
 
-- Advanced search and filtering options for Discogs data
-- Generate YouTube playlists based on search parameters (genre, year, style, etc.)
+DiscogsPlus is an advanced search engine for Discogs, designed to help users discover obscure music and create YouTube playlists based on specific search parameters. The project's motivation is to enhance the Discogs experience by providing more refined search options and seamless integration with YouTube playlists.
+
+## Technical Overview
+
+The project is built using Python, Flask, and PostgreSQL. It utilizes the Discogs Data Dump for obtaining music data and the YouTube API for creating and managing playlists. The data is extracted from the Discogs Data Dump and stored in a local PostgreSQL database. A subset of the data, focused primarily on the electronic genre, is hosted in the cloud to improve performance.
+
+The main components of the project include:
+
+- Flask web application for user interaction
+- PostgreSQL database for storing music data
+- APIs for accessing Discogs and YouTube services
+
+## Advanced Search Features
+
+DiscogsPlus offers advanced search and filtering options, allowing users to discover music that fits their specific interests. The search options include:
+
+- Filtering by specific range of years
+- Filtering by countries
+- Filtering by styles
+- Filtering by artists with only one release
+- Filtering by records without a master release
+
+
+## YouTube Playlist Generation
+
+Users can create YouTube playlists based on their search parameters. The process involves:
+
+1. Fetching search results based on user input
+2. Querying the YouTube API for videos corresponding to the search results
+3. Adding the videos to a new or existing YouTube playlist
+
+## Challenges and Limitations
+
+During the project development, challenges were faced with handling large volumes of data and optimizing the search algorithm to avoid request timeouts. The current web application has limitations regarding request processing time, causing occasional timeouts when the response takes longer than 30 seconds.
 
 ## Future Enhancements
+
+Planned improvements and features to be added in the future include:
 
 - Personalized recommendations using user's collection and wantlist data
 - Additional search and filtering options
 
-## Contributing
 
-This project is still under development, and any ideas are welcome. Feel free to contact me.
+## Local Setup
+
+This project can be run locally for demonstration purposes. To set it up on your machine, follow these steps:
+
+1. Clone the repository to your local machine:
+    ```
+    git clone https://github.com/justinpakzad/DiscogsPlus.git
+    ```
+2. Install the required Python packages:
+    ```
+    pip install -r requirements.txt
+    ```
+3. Set up your environment variables in a `.env` file in the project root directory. The file should include the following variables:
+
+    ```
+    # Database configuration
+    HOST=<your_database_host>
+    DATABASE_NAME=<your_database_name>
+    USER_DB=<your_database_username>
+    PASSWORD=<your_database_password>
+    PORT=<your_database_port>
+
+    # YouTube API credentials
+    YOUTUBE_CLIENT_SECRETS_FILE=<path_to_your_client_secrets_file>
+    ```
+    Replace the placeholders with your actual credentials and API keys.
+4. Run the Flask app:
+    ```
+    python app.py
+    ```
+5. Open a web browser and navigate to `http://127.0.0.1:5000` to access the app.
+
+Please note that this project is primarily intended for local use and demonstration. Some features may not be fully functional when deployed to a web server.
+``

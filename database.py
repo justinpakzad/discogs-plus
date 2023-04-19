@@ -27,13 +27,12 @@ def create_cloud_connection() -> pg8000.dbapi.Connection:
     )
     return conn
 
-
-def create_local_connection():
+def create_local_connectoin():
     conn = psycopg2.connect(
-        host="localhost",
-        database="your_database_name",
-        user="your_username",
-        password="your_password",
-        port="your_port_number"
+        host=os.getenv('HOST'),
+        dbname=os.getenv('DATABASE_NAME'),
+        user=os.getenv('USER_DB'),
+        password=os.getenv('PASSWORD'),
+        port=os.getenv('PORT')
     )
     return conn
