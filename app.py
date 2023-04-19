@@ -78,7 +78,7 @@ def search():
         return "No connection available", 500
 
 
-@app.route("/error")
+@app.route("/timeout_error")
 def timeout_error():
     return render_template("timeout_error.html")
 
