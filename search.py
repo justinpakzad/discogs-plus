@@ -42,11 +42,10 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
     JOIN release_artist_trimmed ra ON r.id = ra.release_id
     JOIN style_filtered sf ON r.title = sf.title AND ra.artist_name = sf.artist_name
     WHERE ra.role = ''
-    AND {one_release_condition}
-    AND {no_master_condition}
+    {one_release_condition}
+    {no_master_condition}
     ORDER BY sf.artist_name, sf.release_year, r.title, sf.country
     LIMIT 25
-
     """
     cursor.execute(q, (genre, formatz, year_from, year_to, countries, style))
     results = cursor.fetchall()
