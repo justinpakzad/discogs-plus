@@ -15,37 +15,36 @@ def search_tracks(conn, genre, search_format, style, year_from, year_to, countri
 
     q = f"""
     WITH filtered_drd AS (
-    SELECT *,
-           COUNT(*) OVER (PARTITION BY artist_name) as artist_release_count
-    FROM trimmed_denormalized_release_data
-    WHERE genre = %s
-      AND format LIKE ANY(%s)
-      AND release_year BETWEEN %s AND %s
-      AND country LIKE ANY(%s)
-    ),
-    style_filtered AS (
-        SELECT DISTINCT fd.*
-        FROM filtered_drd fd,
-            unnest(%s::TEXT[]) s
-        WHERE fd.style LIKE '%' || s || '%'
+        SELECT *,
+            COUNT(*) OVER (PARTITION BY artist_name) as artist_release_count
+        FROM trimmed_denormalized_release_data
+        WHERE
+            genre = %s
+            AND format LIKE ANY(%s)
+            AND release_year BETWEEN %s AND %s
+            AND country LIKE ANY(%s)
     )
-    SELECT DISTINCT ON (sf.artist_name)
+    SELECT DISTINCT ON (filtered_drd.artist_name)
         r.id as release_id,
-        sf.artist_name,
+        filtered_drd.artist_name,
         r.title,
-        sf.label_name,
-        sf.release_year,
-        sf.country,
+        filtered_drd.label_name,
+        filtered_drd.release_year,
+        filtered_drd.country,
         rv.uri
-    FROM release_trimmed r
+    FROM
+        release_trimmed r
     JOIN release_video_trimmed AS rv ON r.id = rv.release_id
     JOIN release_artist_trimmed ra ON r.id = ra.release_id
-    JOIN style_filtered sf ON r.title = sf.title AND ra.artist_name = sf.artist_name
-    WHERE ra.role = ''
-    {one_release_condition}
-    {no_master_condition}
-    ORDER BY sf.artist_name, sf.release_year, r.title, sf.country
-    LIMIT 25
+    JOIN filtered_drd ON r.title = filtered_drd.title AND ra.artist_name = filtered_drd.artist_name
+    WHERE
+        ra.role = ''
+        AND filtered_drd.style LIKE ANY(ARRAY(SELECT '%' || s || '%' FROM unnest(%s::TEXT[]) AS s))
+        {one_release_condition}
+        {no_master_condition}
+    ORDER BY filtered_drd.artist_name, filtered_drd.release_year, r.title, filtered_drd.country
+    {limit_clause}
+    LIMIT 10
     """
     cursor.execute(q, (genre, formatz, year_from, year_to, countries, style))
     results = cursor.fetchall()
