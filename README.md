@@ -1,10 +1,10 @@
 # DiscogsPlus
 
-DiscogsPlus is a work-in-progress project that aims to improve the user experience of Discogs by offering advanced search, filtering, and recommendation features. It includes a YouTube playlist generator based on search parameters and a recommendation system using collaborative filtering.
+DiscogsPlus is a work-in-progress project that aims to improve the user experience of Discogs by offering advanced search, filtering, and Youtube playlist integration features. It includes a YouTube playlist generator based on search parameters and a recommendation system using collaborative filtering.
 
 ## Introduction
 
-DiscogsPlus is an advanced search engine for Discogs, designed to help users discover obscure music and create YouTube playlists based on specific search parameters. The project's motivation is to enhance the Discogs experience by providing more refined search options and seamless integration with YouTube playlists.
+DiscogsPlus is an advanced search engine for Discogs, designed to help users discover obscure music and create YouTube playlists based on specific search parameters. The project's motivation is to enhance the Discogs experience by providing more refined search options and integration with YouTube playlists.
 
 ## Overview
 
@@ -34,10 +34,6 @@ Users can create YouTube playlists based on their search parameters. The process
 1. Fetching search results based on user input
 2. Querying the YouTube API for videos corresponding to the search results
 3. Adding the videos to a new or existing YouTube playlist
-
-## Challenges and Limitations
-
-During the project development, challenges were faced with handling large volumes of data and optimizing the search algorithm to avoid request timeouts. The current web application has limitations regarding request processing time, causing occasional timeouts when the response takes longer than 30 seconds.
 
 ## Future Enhancements
 

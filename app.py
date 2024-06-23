@@ -1,11 +1,11 @@
 import sys
 import os
-from database import create_cloud_connection
+from database import create_local_connection
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from flask import Flask, render_template, request, redirect, url_for
 from flask.logging import create_logger
 import logging
-from dotenv import load_dotenv  # Add this line
+from dotenv import load_dotenv  
 from search import search_tracks,validate_input
 from playlist import create_playlist
 from werkzeug.exceptions import RequestTimeout
@@ -43,6 +43,7 @@ def search():
         "one_release": request.args.get('one_release') == 'on',
         "limit_results": request.args.get('generate_playlist') == 'on',
         "no_master": request.args.get('no_master') == 'on',
+        "no_videos": request.args.get('no_videos') == 'on',
         "gen_playlist": request.args.get('generate_playlist') == 'on',
         "playlist_name": request.args.get('playlist_name'),
         "playlist_description": request.args.get('playlist_description'),
@@ -54,15 +55,17 @@ def search():
     if not validate_input(search_params["genre"], search_params["style"], search_params["countries"], search_params["search_format"]):
         return redirect(url_for('home'))
 
-    connection = create_cloud_connection()
+
+
+    connection = create_local_connection()
 
     if connection:
         try:
             gen_playlist = search_params.pop("gen_playlist")
             playlist_name = search_params.pop("playlist_name")
             playlist_description = search_params.pop("playlist_description")
-
             tracks = search_tracks(connection, **search_params)
+
             if gen_playlist:
                 create_playlist(tracks, playlist_name, playlist_description)
                 return render_template('home.html')
@@ -81,7 +84,6 @@ def search():
 @app.route("/timeout_error")
 def timeout_error():
     return render_template("timeout_error.html")
-
 
 
 if __name__ == '__main__':
